@@ -1,6 +1,8 @@
 mod cli;
 mod config;
 mod prompts;
+mod runner;
+mod steps;
 
 use anyhow::Result;
 use clap::Parser;
@@ -14,14 +16,7 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::React { app_name } => {
             let config = collect_react_setup_config(app_name)?;
-
-            println!(
-                "{} {}",
-                style("✔").green(),
-                style(format!("React setup prepared for '{}'", config.app_name)).bold()
-            );
-
-            println!("Mode: {:?}", config.setup_mode);
+            runner::run_react_setup(&config)?;
         }
     }
 
