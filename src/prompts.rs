@@ -1,7 +1,14 @@
 use anyhow::Result;
 use inquire::{Select, Text};
 
-use crate::config::{ReactSetupConfig, SetupMode};
+use crate::config::{
+    FormattingTool,
+    Language,
+    LintingTool,
+    PackageManager,
+    ReactSetupConfig,
+    SetupMode,
+};
 
 pub fn collect_react_setup_config(app_name: Option<String>) -> Result<ReactSetupConfig> {
     let app_name = match app_name {
@@ -25,8 +32,38 @@ pub fn collect_react_setup_config(app_name: Option<String>) -> Result<ReactSetup
         _ => SetupMode::Simple,
     };
 
-    Ok(ReactSetupConfig {
+    match setup_mode {
+        SetupMode::Simple => Ok(create_simple_config(app_name)),
+        SetupMode::Advanced => {
+            println!();
+            println!("Advanced setup is still work in progress.");
+
+            std::process::exit(0);
+        }
+    }
+}
+
+fn create_simple_config(app_name: String) -> ReactSetupConfig {
+    ReactSetupConfig {
         app_name,
-        setup_mode,
-    })
+        setup_mode: SetupMode::Simple,
+
+        language: Language::TypeScript,
+        package_manager: PackageManager::Npm,
+
+        use_git: true,
+
+        linting: vec![
+            LintingTool::Biome,
+            LintingTool::Stylelint,
+        ],
+
+        formatting: FormattingTool::Biome,
+
+        use_tailwind: true,
+        use_layout: true,
+        use_global_styles: true,
+        use_folders: true,
+        use_basic_components: true,
+    }
 }

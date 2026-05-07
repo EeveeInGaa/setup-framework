@@ -16,6 +16,7 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::React { app_name } => {
             let config = collect_react_setup_config(app_name)?;
+            println!("{:#?}", config); /* shows config structure */
             runner::run_react_setup(&config)?;
         }
     }
