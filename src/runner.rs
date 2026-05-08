@@ -16,6 +16,11 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
     if config.use_folders {
         steps::folders::create_folders(config)?;
     }
+
+    if config.use_basic_components {
+        steps::components::create_basic_components(config)?;
+    }
+
     println!(
         "{} {}",
         style("✔").green(),
