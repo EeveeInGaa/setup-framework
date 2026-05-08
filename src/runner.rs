@@ -21,6 +21,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
         steps::components::create_basic_components(config)?;
     }
 
+    steps::vite_cleanup::cleanup_vite_template(config)?;
+
     println!(
         "{} {}",
         style("✔").green(),
