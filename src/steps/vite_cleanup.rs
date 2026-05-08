@@ -10,20 +10,62 @@ pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Cleaning up Vite template...", style("•").blue());
 
     write_file(
-        config.project_path.join("src/App.tsx"),
-        r#"import { Header } from "./core/Header";
-import { Footer } from "./core/Footer";
+        config.project_path.join("src/router.tsx"),
+        r#"import { createBrowserRouter } from "react-router";
+import { RootLayout } from "./core/RootLayout";
 import { Home } from "./pages/general/Home";
+import { NotFound } from "./pages/general/NotFound";
 
-export function App() {
-  return (
-    <>
-      <Header />
-      <Home />
-      <Footer />
-    </>
-  );
-}
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <Home />, handle: { title: 'Home' }},
+      {
+        path: 'terms',
+        lazy: async () => {
+           const m = await import('./pages/general/Terms');
+           return { Component: m.Terms };
+        },
+        handle: { title: 'Terms & Conditions' }
+      },
+      {
+        path: 'imprint',
+        lazy: async () => {
+           const m = await import('./pages/general/Imprint');
+           return { Component: m.Imprint };
+        },
+        handle: { title: 'Imprint' }
+      },
+      {
+        path: 'privacy',
+        lazy: async () => {
+           const m = await import('./pages/general/Privacy');
+           return { Component: m.Privacy };
+        },
+        handle: { title: 'Privacy Policy' }
+      },
+    ],
+  },
+]);
+"#,
+    )?;
+
+    write_file(
+        config.project_path.join("src/main.tsx"),
+        r#"import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { RouterProvider } from "react-router";
+import { router } from "./router";
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>,
+)
 "#,
     )?;
 
@@ -48,6 +90,7 @@ body {
     )?;
 
     remove_file_if_exists(config.project_path.join("src/App.css"))?;
+    remove_file_if_exists(config.project_path.join("src/App.tsx"))?;
 
     Ok(())
 }

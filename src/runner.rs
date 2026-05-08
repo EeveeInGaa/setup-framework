@@ -23,6 +23,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::vite_cleanup::cleanup_vite_template(config)?;
 
+    steps::router::setup_router(config)?;
+
     println!(
         "{} {}",
         style("✔").green(),
