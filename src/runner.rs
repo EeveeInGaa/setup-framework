@@ -25,6 +25,10 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::router::setup_router(config)?;
 
+    if config.use_tailwind {
+        steps::tailwind::setup_tailwind(config)?;
+    }
+
     println!(
         "{} {}",
         style("✔").green(),

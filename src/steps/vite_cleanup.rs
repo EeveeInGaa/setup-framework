@@ -69,26 +69,6 @@ createRoot(document.getElementById('root')!).render(
 "#,
     )?;
 
-    write_file(
-        config.project_path.join("src/index.css"),
-        r#":root {
-  font-family: system-ui, sans-serif;
-  color: #111827;
-  background: #ffffff;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
-"#,
-    )?;
-
     remove_file_if_exists(config.project_path.join("src/App.css"))?;
     remove_file_if_exists(config.project_path.join("src/App.tsx"))?;
 
