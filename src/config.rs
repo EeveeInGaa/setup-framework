@@ -1,7 +1,10 @@
+use std::path::PathBuf;
+
 #[derive(Debug, Clone)]
 pub struct ReactSetupConfig {
     pub app_name: String,
     pub setup_mode: SetupMode,
+    pub project_path: PathBuf,
 
     pub language: Language,
     pub package_manager: PackageManager,

@@ -1,5 +1,6 @@
 use anyhow::Result;
 use inquire::{Select, Text};
+use std::path::PathBuf;
 
 use crate::config::{
     FormattingTool,
@@ -44,9 +45,12 @@ pub fn collect_react_setup_config(app_name: Option<String>) -> Result<ReactSetup
 }
 
 fn create_simple_config(app_name: String) -> ReactSetupConfig {
+    let project_path = PathBuf::from(&app_name);
+
     ReactSetupConfig {
         app_name,
         setup_mode: SetupMode::Simple,
+        project_path,
 
         language: Language::TypeScript,
         package_manager: PackageManager::Npm,
