@@ -13,6 +13,9 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::vite::create_vite_project(config)?;
 
+    if config.use_folders {
+        steps::folders::create_folders(config)?;
+    }
     println!(
         "{} {}",
         style("✔").green(),
@@ -20,7 +23,7 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
     );
 
     println!();
-    println!("{}", style("Next steps will add folders, Tailwind, layout and tooling.").dim());
+    println!("{}", style("Next steps will add Tailwind, layout and tooling.").dim());
 
     Ok(())
 }
