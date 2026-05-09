@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::Path;
+use serde_json::json;
 
 use anyhow::{Context, Result};
 use serde_json::{Map, Value};
@@ -38,7 +39,8 @@ pub fn add_script(project_path: &Path, name: &str, command: &str) -> Result<()> 
         Value::String(command.to_string()),
     );
 
-    let formatted = serde_json::to_string_pretty(&package_json)
+    let reordered = reorder_package_json(&package_json);
+    let formatted = serde_json::to_string_pretty(&reordered)
         .context("Failed to format package.json")?;
 
     fs::write(&package_json_path, format!("{formatted}\n"))
@@ -70,11 +72,33 @@ fn add_package(project_path: &Path, section: &str, name: &str, version: &str) ->
 
     dependencies.insert(name.to_string(), Value::String(version.to_string()));
 
-    let formatted = serde_json::to_string_pretty(&package_json)
+    let reordered = reorder_package_json(&package_json);
+    let formatted = serde_json::to_string_pretty(&reordered)
         .context("Failed to format package.json")?;
 
     fs::write(&package_json_path, format!("{formatted}\n"))
         .with_context(|| format!("Failed to write '{}'", package_json_path.display()))?;
 
     Ok(())
+}
+
+fn reorder_package_json(package_json: &Value) -> Value {
+    json!({
+        "name": package_json.get("name").cloned().unwrap_or(Value::Null),
+        "private": package_json.get("private").cloned().unwrap_or(Value::Null),
+        "version": package_json.get("version").cloned().unwrap_or(Value::Null),
+        "type": package_json.get("type").cloned().unwrap_or(Value::Null),
+
+        "scripts": package_json.get("scripts").cloned().unwrap_or_else(|| json!({})),
+
+        "dependencies": package_json
+            .get("dependencies")
+            .cloned()
+            .unwrap_or_else(|| json!({})),
+
+        "devDependencies": package_json
+            .get("devDependencies")
+            .cloned()
+            .unwrap_or_else(|| json!({})),
+    })
 }
