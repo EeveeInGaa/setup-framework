@@ -7,3 +7,4 @@ pub mod tailwind;
 pub mod biome;
 pub mod install;
 pub mod finalize;
+pub mod git;

@@ -35,6 +35,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::finalize::finalize_project(config)?;
 
+    steps::git::setup_git(config)?;
+
     println!(
         "{} {}",
         style("✔").green(),
