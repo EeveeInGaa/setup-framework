@@ -5,3 +5,5 @@ pub mod vite_cleanup;
 pub mod router;
 pub mod tailwind;
 pub mod biome;
+pub mod install;
+pub mod finalize;

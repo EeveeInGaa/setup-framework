@@ -31,6 +31,10 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::biome::setup_biome(config)?;
 
+    steps::install::install_dependencies(config)?;
+
+    steps::finalize::finalize_project(config)?;
+
     println!(
         "{} {}",
         style("✔").green(),

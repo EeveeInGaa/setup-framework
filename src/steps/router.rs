@@ -9,7 +9,7 @@ pub fn setup_router(config: &ReactSetupConfig) -> Result<()> {
 
     add_dependency(
         &config.project_path,
-        "react-router",
+        "react-router-dom",
         "^7.6.0",
     )?;
 
