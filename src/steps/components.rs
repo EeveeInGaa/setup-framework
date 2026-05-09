@@ -60,31 +60,34 @@ pub fn create_basic_components(config: &ReactSetupConfig) -> Result<()> {
 
     write_file(
         core_path.join("RootLayout.tsx"),
-        r#"import { Outlet, useMatches } from "react-router-dom";
+        r#"import { Outlet, useMatches, type UIMatch } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { useEffect } from "react";
 
+type RouteHandle = {
+    title?: string;
+};
+
 export function RootLayout() {
-    const matches = useMatches();
+    const matches = useMatches() as UIMatch<unknown, RouteHandle>[];
 
     useEffect(() => {
-        const match = [...matches].reverse().find(m => m.handle?.title);
+        const match = [...matches].reverse().find((match) => match.handle?.title);
         const title = match?.handle?.title;
 
-        document.title =
-            typeof title === 'function'
-                ? title(match)
-                : title ?? 'My App';
+        document.title = title ?? "My App";
     }, [matches]);
 
-    return <>
-        <Header />
-        <main><Outlet /></main>
-        <Footer />
-    </>
+    return (
+        <>
+            <Header />
+            <main><Outlet /></main>
+            <Footer />
+        </>
+    );
 }
-        "#,
+"#,
     )?;
 
     write_file(
