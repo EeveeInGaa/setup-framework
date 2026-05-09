@@ -4,3 +4,4 @@ pub mod components;
 pub mod vite_cleanup;
 pub mod router;
 pub mod tailwind;
+pub mod biome;

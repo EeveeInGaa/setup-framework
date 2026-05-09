@@ -29,6 +29,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
         steps::tailwind::setup_tailwind(config)?;
     }
 
+    steps::biome::setup_biome(config)?;
+
     println!(
         "{} {}",
         style("✔").green(),
