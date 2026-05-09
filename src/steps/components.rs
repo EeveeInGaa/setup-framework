@@ -23,24 +23,30 @@ pub fn create_basic_components(config: &ReactSetupConfig) -> Result<()> {
 
     write_file(
         components_path.join("Button.tsx"),
-        r#"
-  export function Button({ children, onClick, ...props }) {
-    return (
-      <button type="button" onClick={onClick} {...props}>
-        {children}
-      </button>
-    );
-  }
+        r#"import type * as React from "react";
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+export function Button({ children, onClick, ...props }: ButtonProps) {
+   return (
+     <button className="block rounded-sm border border-text px-4 py-2 cursor-pointer hover:bg-secondary" onClick={onClick} {...props}>
+       {children}
+     </button>
+   );
+}
+  
   "#,
     )?;
 
     write_file(
         core_path.join("Header.tsx"),
-        r#"import {Link} from "react-router-dom";
+        r#"import { Link } from "react-router-dom";
 
 export function Header() {
     return (
-      <header>
+      <header className="custom-container">
           <Link to="/" className="hover:underline">
                 Go to home
           </Link>
@@ -52,11 +58,11 @@ export function Header() {
 
     write_file(
         core_path.join("Footer.tsx"),
-        r#"import {Link} from "react-router-dom";
+        r#"import { Link } from "react-router-dom";
 
 export function Footer() {
     return (
-      <footer>
+      <footer className="custom-container">
           <nav aria-label="Footer">
               <ul className="flex gap-4">
                   <li>
@@ -98,11 +104,13 @@ export function RootLayout() {
     }, [matches]);
 
     return (
-        <>
+        <div className="flex min-h-screen flex-col">
             <Header />
-            <main><Outlet /></main>
+                <main className="grow custom-container mt-lg">
+                    <Outlet />
+                </main>
             <Footer />
-        </>
+        </div>
     );
 }
 "#,
@@ -110,8 +118,13 @@ export function RootLayout() {
 
     write_file(
         pages_path.join("Home.tsx"),
-        r#"export function Home() {
-    return <h1>Home</h1>;
+        r#"import {Button} from "../../components/Button.tsx";
+
+export function Home() {
+    return <>
+    <h1>Home</h1>
+    <Button onClick={() => console.log('click!')}>Click</Button>
+    </>
   }
   "#,
     )?;
