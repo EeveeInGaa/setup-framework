@@ -49,7 +49,7 @@ fn write_biome_config(config: &ReactSetupConfig) -> Result<()> {
     write_file(
         config.project_path.join("biome.json"),
         r#"{
-	"$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
