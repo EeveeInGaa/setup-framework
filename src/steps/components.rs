@@ -36,10 +36,14 @@ pub fn create_basic_components(config: &ReactSetupConfig) -> Result<()> {
 
     write_file(
         core_path.join("Header.tsx"),
-        r#"export function Header() {
+        r#"import {Link} from "react-router-dom";
+
+export function Header() {
     return (
       <header>
-        <p>Header</p>
+          <Link to="/" className="hover:underline">
+                Go to home
+          </Link>
       </header>
     );
   }
@@ -48,10 +52,24 @@ pub fn create_basic_components(config: &ReactSetupConfig) -> Result<()> {
 
     write_file(
         core_path.join("Footer.tsx"),
-        r#"export function Footer() {
+        r#"import {Link} from "react-router-dom";
+
+export function Footer() {
     return (
       <footer>
-        <p>Footer</p>
+          <nav aria-label="Footer">
+              <ul className="flex gap-4">
+                  <li>
+                      <Link to="/terms" className="hover:underline">Terms</Link>
+                  </li>
+                  <li>
+                      <Link to="/privacy" className="hover:underline">Privacy</Link>
+                  </li>
+                  <li>
+                      <Link to="/imprint" className="hover:underline">Imprint</Link>
+                  </li>
+              </ul>
+          </nav>
       </footer>
     );
   }
@@ -124,9 +142,19 @@ export function RootLayout() {
 
     write_file(
         pages_path.join("NotFound.tsx"),
-        r#"export function NotFound() {
-    return <h1>Not Found</h1>;
+        r#"import {Link} from "react-router-dom";
+
+export function NotFound() {
+    return (
+        <>
+          <h1>Not Found</h1>
+          <Link to="/" className="hover:underline">
+             Go to home
+          </Link>
+        </>
+    )
   }
+
   "#,
     )?;
 
