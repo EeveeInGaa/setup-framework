@@ -37,6 +37,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::git::setup_git(config)?;
 
+    println!();
+
     println!(
         "{} {}",
         style("✔").green(),
@@ -44,7 +46,26 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
     );
 
     println!();
-    println!("{}", style("Next steps will add Tailwind, layout and tooling.").dim());
+
+    println!("{}", style("Next steps:").bold());
+
+    println!(
+        "  {} {}",
+        style("cd").cyan(),
+        config.app_name
+    );
+
+    println!(
+        "  {}",
+        style("ws").cyan(),
+    );
+
+    println!(
+        "  {} {} {}",
+        style("npm").cyan(),
+        "run dev",
+        style("(or run directly in IDE)").dim()
+    );
 
     Ok(())
 }

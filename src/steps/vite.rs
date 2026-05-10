@@ -27,16 +27,5 @@ pub fn create_vite_project(config: &ReactSetupConfig) -> Result<()> {
         bail!("Vite project creation failed");
     }
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    for line in stdout.lines() {
-        if line.contains("Done. Now run:") {
-            break;
-        }
-
-        if !line.trim().is_empty() {
-            println!("{}", style(line).dim());
-        }
-    }
-
     Ok(())
 }
