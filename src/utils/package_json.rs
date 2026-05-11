@@ -13,6 +13,10 @@ pub fn add_dev_dependency(project_path: &Path, name: &str, version: &str) -> Res
     add_package(project_path, "devDependencies", name, version)
 }
 
+pub fn remove_dev_dependency(project_path: &Path, name: &str) -> Result<()> {
+    remove_package(project_path, "devDependencies", name)
+}
+
 pub fn add_script(project_path: &Path, name: &str, command: &str) -> Result<()> {
     let package_json_path = project_path.join("package.json");
 
@@ -71,6 +75,37 @@ fn add_package(project_path: &Path, section: &str, name: &str, version: &str) ->
         .with_context(|| format!("'{section}' in package.json must be an object"))?;
 
     dependencies.insert(name.to_string(), Value::String(version.to_string()));
+
+    let reordered = reorder_package_json(&package_json);
+    let formatted = serde_json::to_string_pretty(&reordered)
+        .context("Failed to format package.json")?;
+
+    fs::write(&package_json_path, format!("{formatted}\n"))
+        .with_context(|| format!("Failed to write '{}'", package_json_path.display()))?;
+
+    Ok(())
+}
+
+fn remove_package(project_path: &Path, section: &str, name: &str) -> Result<()> {
+    let package_json_path = project_path.join("package.json");
+
+    let content = fs::read_to_string(&package_json_path)
+        .with_context(|| format!("Failed to read '{}'", package_json_path.display()))?;
+
+    let mut package_json: Value = serde_json::from_str(&content)
+        .with_context(|| format!("Failed to parse '{}'", package_json_path.display()))?;
+
+    let root = package_json
+        .as_object_mut()
+        .context("package.json root must be an object")?;
+
+    if let Some(section_value) = root.get_mut(section) {
+        let dependencies = section_value
+            .as_object_mut()
+            .with_context(|| format!("'{section}' in package.json must be an object"))?;
+
+        dependencies.remove(name);
+    }
 
     let reordered = reorder_package_json(&package_json);
     let formatted = serde_json::to_string_pretty(&reordered)

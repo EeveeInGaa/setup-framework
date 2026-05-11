@@ -5,6 +5,7 @@ use anyhow::{Context, Result};
 use console::style;
 
 use crate::config::ReactSetupConfig;
+use crate::utils::package_json::remove_dev_dependency;
 
 pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Cleaning up Vite template...", style("•").blue());
@@ -77,6 +78,7 @@ createRoot(rootElement).render(
 
     remove_file_if_exists(config.project_path.join("src/App.css"))?;
     remove_file_if_exists(config.project_path.join("src/App.tsx"))?;
+    remove_vite_eslint_dependencies(config)?;
 
     Ok(())
 }
@@ -93,6 +95,25 @@ fn remove_file_if_exists(path: PathBuf) -> Result<()> {
         fs::remove_file(&path)
             .with_context(|| format!("Failed to remove file '{}'", path.display()))?;
     }
+
+    Ok(())
+}
+
+fn remove_vite_eslint_dependencies(config: &ReactSetupConfig) -> Result<()> {
+    let eslint_packages = [
+        "eslint",
+        "@eslint/js",
+        "typescript-eslint",
+        "eslint-plugin-react-hooks",
+        "eslint-plugin-react-refresh",
+        "globals",
+    ];
+
+    for package in eslint_packages {
+        remove_dev_dependency(&config.project_path, package)?;
+    }
+
+    remove_file_if_exists(config.project_path.join("eslint.config.js"))?;
 
     Ok(())
 }
