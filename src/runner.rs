@@ -31,6 +31,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
 
     steps::biome::setup_biome(config)?;
 
+    steps::readme::setup_readme(config)?;
+
     steps::install::install_dependencies(config)?;
 
     steps::finalize::finalize_project(config)?;
@@ -65,6 +67,12 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
         style("npm").cyan(),
         "run dev",
         style("(or run directly in IDE)").dim()
+    );
+
+    println!(
+        "  {} {}",
+        style("adjust").cyan(),
+        "README.md",
     );
 
     Ok(())

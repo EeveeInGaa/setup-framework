@@ -6,6 +6,7 @@ use console::style;
 
 use crate::config::ReactSetupConfig;
 use crate::utils::package_json::remove_dev_dependency;
+use crate::utils::file::remove_file_if_exists;
 
 pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Cleaning up Vite template...", style("•").blue());
@@ -86,15 +87,6 @@ createRoot(rootElement).render(
 fn write_file(path: PathBuf, content: &str) -> Result<()> {
     fs::write(&path, content)
         .with_context(|| format!("Failed to write file '{}'", path.display()))?;
-
-    Ok(())
-}
-
-fn remove_file_if_exists(path: PathBuf) -> Result<()> {
-    if Path::new(&path).exists() {
-        fs::remove_file(&path)
-            .with_context(|| format!("Failed to remove file '{}'", path.display()))?;
-    }
 
     Ok(())
 }

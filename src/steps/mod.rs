@@ -8,3 +8,4 @@ pub mod biome;
 pub mod install;
 pub mod finalize;
 pub mod git;
+pub mod readme;
