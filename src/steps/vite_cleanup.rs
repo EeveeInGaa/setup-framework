@@ -1,12 +1,12 @@
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use console::style;
 
 use crate::config::ReactSetupConfig;
-use crate::utils::package_json::remove_dev_dependency;
 use crate::utils::file::remove_file_if_exists;
+use crate::utils::package_json::remove_dev_dependency;
 
 pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Cleaning up Vite template...", style("•").blue());
@@ -14,9 +14,9 @@ pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     write_file(
         config.project_path.join("src/router.tsx"),
         r#"import { createBrowserRouter } from "react-router";
-import { RootLayout } from "./core/RootLayout";
-import { Home } from "./pages/general/Home";
-import { NotFound } from "./pages/general/NotFound";
+import { RootLayout } from "@/core/RootLayout";
+import { Home } from "@/pages/general/Home";
+import { NotFound } from "@/pages/general/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       {
         path: 'terms',
         lazy: async () => {
-           const m = await import('./pages/general/Terms');
+           const m = await import('@/pages/general/Terms');
            return { Component: m.Terms };
         },
         handle: { title: 'Terms & Conditions' }
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       {
         path: 'imprint',
         lazy: async () => {
-           const m = await import('./pages/general/Imprint');
+           const m = await import('@/pages/general/Imprint');
            return { Component: m.Imprint };
         },
         handle: { title: 'Imprint' }
@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
       {
         path: 'privacy',
         lazy: async () => {
-           const m = await import('./pages/general/Privacy');
+           const m = await import('@/pages/general/Privacy');
            return { Component: m.Privacy };
         },
         handle: { title: 'Privacy Policy' }
@@ -60,7 +60,7 @@ export const router = createBrowserRouter([
         r#"import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from "react-router";
-import { router } from "./router";
+import { router } from "@/router";
 import './index.css'
 
 const rootElement = document.getElementById("root");

@@ -29,6 +29,8 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
         steps::tailwind::setup_tailwind(config)?;
     }
 
+    steps::aliases::setup_aliases(config)?;
+
     steps::biome::setup_biome(config)?;
 
     steps::readme::setup_readme(config)?;

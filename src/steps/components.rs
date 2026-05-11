@@ -85,8 +85,8 @@ export function Footer() {
     write_file(
         core_path.join("RootLayout.tsx"),
         r#"import { Outlet, useMatches, type UIMatch } from "react-router-dom";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Footer } from "@/core/Footer";
+import { Header } from "@/core/Header";
 import { useEffect } from "react";
 
 type RouteHandle = {
@@ -118,7 +118,7 @@ export function RootLayout() {
 
     write_file(
         pages_path.join("Home.tsx"),
-        r#"import {Button} from "../../components/Button.tsx";
+        r#"import { Button } from "@/components/Button";
 
 export function Home() {
     return <>
