@@ -72,9 +72,35 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
     );
 
     println!(
+        "  {} {} {} {}",
+        style("activate").cyan(),
+        style("Actions on save (all Biome Options)").bold(),
+        "in Webstorm Settings",
+        style("(Biome runs all files initially)").dim()
+    );
+
+    println!(
         "  {} {}",
         style("adjust").cyan(),
         "README.md",
+    );
+
+    println!(
+        "  {} {}",
+        style("adjust").cyan(),
+        "Design Tokens",
+    );
+
+    println!(
+        "  {} {}",
+        style("add and adjust").cyan(),
+        "Components and Pages as needed",
+    );
+
+    println!(
+        "  {} {}",
+        style("install").cyan(),
+        "further packages",
     );
 
     Ok(())
