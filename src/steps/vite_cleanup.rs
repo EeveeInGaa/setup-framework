@@ -7,9 +7,31 @@ use console::style;
 use crate::config::ReactSetupConfig;
 use crate::utils::file::remove_file_if_exists;
 use crate::utils::package_json::remove_dev_dependency;
+use crate::utils::string::format_project_title;
 
 pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Cleaning up Vite template...", style("•").blue());
+
+    write_file(
+        config.project_path.join("index.html"),
+        &format!(
+            r#"<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{}</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+"#,
+            format_project_title(&config.app_name)
+        ),
+    )?;
 
     write_file(
         config.project_path.join("src/router.tsx"),
