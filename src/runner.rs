@@ -1,7 +1,7 @@
 use anyhow::Result;
 use console::style;
 
-use crate::config::ReactSetupConfig;
+use crate::config::{ReactSetupConfig, PackageManager};
 use crate::steps;
 
 pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
@@ -64,10 +64,17 @@ pub fn run_react_setup(config: &ReactSetupConfig) -> Result<()> {
         style("ws").cyan(),
     );
 
+    let package_manager = match config.package_manager {
+        PackageManager::Pnpm => "pnpm",
+        PackageManager::Npm => "npm run",
+        PackageManager::Yarn => "yarn",
+        PackageManager::Bun => "bun",
+    };
+
     println!(
         "  {} {} {}",
-        style("npm").cyan(),
-        "run dev",
+        style(package_manager).cyan(),
+        "dev",
         style("(or run directly in IDE)").dim()
     );
 

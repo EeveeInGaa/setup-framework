@@ -35,7 +35,7 @@ pub fn cleanup_vite_template(config: &ReactSetupConfig) -> Result<()> {
 
     write_file(
         config.project_path.join("src/router.tsx"),
-        r#"import { createBrowserRouter } from "react-router";
+        r#"import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "@/core/RootLayout";
 import { Home } from "@/pages/general/Home";
 import { NotFound } from "@/pages/general/NotFound";
@@ -81,7 +81,7 @@ export const router = createBrowserRouter([
         config.project_path.join("src/main.tsx"),
         r#"import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { RouterProvider } from "react-router";
+import { RouterProvider } from "react-router-dom";
 import { router } from "@/router";
 import './index.css'
 

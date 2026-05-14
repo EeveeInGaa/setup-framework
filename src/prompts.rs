@@ -33,18 +33,36 @@ pub fn collect_react_setup_config(app_name: Option<String>) -> Result<ReactSetup
         _ => SetupMode::Simple,
     };
 
-    match setup_mode {
-        SetupMode::Simple => Ok(create_simple_config(app_name)),
-        SetupMode::Advanced => {
-            println!();
-            println!("Advanced setup is still work in progress.");
+    if matches!(setup_mode, SetupMode::Advanced) {
+        println!();
+        println!("Advanced setup is still work in progress.");
 
-            std::process::exit(0);
-        }
+        std::process::exit(0);
     }
+
+    let package_manager = Select::new(
+        "Choose package manager:",
+        vec![
+            "pnpm (recommended)",
+            "npm",
+        ],
+    )
+        .with_starting_cursor(0)
+        .prompt()?;
+
+    let package_manager = match package_manager {
+        "pnpm (recommended)" => PackageManager::Pnpm,
+        "npm" => PackageManager::Npm,
+        _ => PackageManager::Pnpm,
+    };
+
+    Ok(create_simple_config(app_name, package_manager))
 }
 
-fn create_simple_config(app_name: String) -> ReactSetupConfig {
+fn create_simple_config(
+    app_name: String,
+    package_manager: PackageManager,
+) -> ReactSetupConfig {
     let project_path = PathBuf::from(&app_name);
 
     ReactSetupConfig {
@@ -53,7 +71,7 @@ fn create_simple_config(app_name: String) -> ReactSetupConfig {
         project_path,
 
         language: Language::TypeScript,
-        package_manager: PackageManager::Npm,
+        package_manager,
 
         use_git: true,
 

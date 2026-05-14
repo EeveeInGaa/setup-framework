@@ -4,17 +4,40 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 use console::style;
 
-use crate::config::ReactSetupConfig;
+use crate::config::{ReactSetupConfig, PackageManager};
 use crate::utils::file::remove_file_if_exists;
 
 pub fn setup_readme(config: &ReactSetupConfig) -> Result<()> {
     println!("{} Creating README...", style("•").blue());
     remove_file_if_exists(config.project_path.join("README.md"))?;
 
+    let app_name = &config.app_name;
+
+    let install_command = match config.package_manager {
+        PackageManager::Pnpm => "pnpm install",
+        PackageManager::Npm => "npm install",
+        PackageManager::Yarn => "yarn",
+        PackageManager::Bun => "bun install",
+    };
+
+    let dev_command = match config.package_manager {
+        PackageManager::Pnpm => "pnpm dev",
+        PackageManager::Npm => "npm run dev",
+        PackageManager::Yarn => "yarn dev",
+        PackageManager::Bun => "bun dev",
+    };
+
+    let package_manager_name = match config.package_manager {
+        PackageManager::Pnpm => "pnpm",
+        PackageManager::Npm => "npm",
+        PackageManager::Yarn => "yarn",
+        PackageManager::Bun => "bun",
+    };
+
     write_file(
         config.project_path.join("README.mdx"),
         &format!(
-            r#"# README {}
+            r#"# README {app_name}
 
 Minimal, modern React 19 starter built with TypeScript, Vite, Tailwind CSS v4 and Biome.
 
@@ -36,13 +59,14 @@ Designed for fast development, clean architecture and long-term maintainability.
 - Darkmode ready
 - Responsive layout foundation
 - Clean and minimal setup
+- {package_manager_name}
 
 ---
 
 ## Requirements
 
 - Node.js 22+
-- npm or pnpm
+- {package_manager_name}
 
 ---
 
@@ -51,13 +75,13 @@ Designed for fast development, clean architecture and long-term maintainability.
 Install dependencies (initially already done):
 
 ```bash
-npm install
+{install_command}
 ```
 
 Start the development server:
 
 ```bash
-npm run dev
+{dev_command}
 ```
 
 Open:
@@ -142,9 +166,8 @@ biome.json
 - [Biome Plugin](https://plugins.jetbrains.com/plugin/22761-biome)
 
 
-"#,
-            config.app_name
-        ),
+"#
+),
     )?;
 
     Ok(())
