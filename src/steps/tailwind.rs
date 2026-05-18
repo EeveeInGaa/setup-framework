@@ -42,41 +42,41 @@ fn write_tailwind_styles(config: &ReactSetupConfig) -> Result<()> {
 
 :root,
 .light {
-	--background: #f8f8f7;
-	--primary: #a736c6;
-	--secondary: #6f44c1;
-	--text: #111827;
-	--text-invert: #f8f8f7;
-	--error: #b94b4a;
-	--warning: #bfb133;
-	--success: #67a448;
-	--info: #3270c2;
+	--background: oklch(0.979 0.002 106.4);
+	--primary: oklch(0.579 0.223 319.2);
+	--secondary: oklch(0.517 0.177 293.7);
+	--text: oklch(0.211 0.034 264.7);
+	--text-invert: oklch(0.979 0.002 106.4);
+	--error: oklch(0.572 0.154 28.1);
+	--warning: oklch(0.758 0.154 103.5);
+	--success: oklch(0.684 0.169 133.2);
+	--info: oklch(0.562 0.172 257.3);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background: #111827;
-		--primary: #b266c4;
-		--secondary: #9078bd;
-		--text: #f8f8f7;
-		--text-invert: #111827;
-		--error: #df5d5c;
-		--warning: #d1c147;
-		--success: #7dc957;
-		--info: #3d8aef;
+		--background: oklch(0.211 0.034 264.7);
+		--primary: oklch(0.657 0.179 319.7);
+		--secondary: oklch(0.635 0.112 295.2);
+		--text: oklch(0.979 0.002 106.4);
+		--text-invert: oklch(0.211 0.034 264.7);
+		--error: oklch(0.668 0.195 27.4);
+		--warning: oklch(0.814 0.166 103.1);
+		--success: oklch(0.762 0.195 134.6);
+		--info: oklch(0.646 0.185 254.9);
 	}
 }
 
 .dark {
-	--background: #111827;
-	--primary: #b266c4;
-	--secondary: #9078bd;
-	--text: #f8f8f7;
-	--text-invert: #111827;
-	--error: #df5d5c;
-	--warning: #d1c147;
-	--success: #7dc957;
-	--info: #3d8aef;
+	--background: oklch(0.211 0.034 264.7);
+	--primary: oklch(0.657 0.179 319.7);
+	--secondary: oklch(0.635 0.112 295.2);
+	--text: oklch(0.979 0.002 106.4);
+	--text-invert: oklch(0.211 0.034 264.7);
+	--error: oklch(0.668 0.195 27.4);
+	--warning: oklch(0.814 0.166 103.1);
+	--success: oklch(0.762 0.195 134.6);
+	--info: oklch(0.646 0.185 254.9);
 }
 
 @theme inline {
@@ -103,8 +103,8 @@ fn write_tailwind_styles(config: &ReactSetupConfig) -> Result<()> {
 	--font-weight-normal: 400;
 	--font-weight-bold: 600;
 
-	--shadow-small: 0 3px 6px rgba(0, 0, 0, 0.2);
-	--shadow-normal: 0 4px 8px rgba(0, 0, 0, 0.2);
+	--shadow-small: 0 3px 6px oklch(0 0 0 / 20%);
+	--shadow-normal: 0 4px 8px oklch(0 0 0 / 20%);
 
 	--radius-*: initial;
 	--radius-xs: 0.25rem;
