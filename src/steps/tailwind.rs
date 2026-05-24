@@ -92,6 +92,13 @@ fn write_tailwind_styles(config: &ReactSetupConfig) -> Result<()> {
 
 	--font-display: Inter, ui-sans-serif, system-ui, sans-serif;
 
+	--spacing-xs: 4px;
+	--spacing-sm: 8px;
+	--spacing-md: 16px;
+	--spacing-lg: 20px;
+	--spacing-xl: 24px;
+	--spacing-xxl: 32px;
+
 	--text-*: initial;
 	--text-xs: 0.75rem;
 	--text-sm: 0.875rem;
